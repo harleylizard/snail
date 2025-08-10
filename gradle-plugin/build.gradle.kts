@@ -16,8 +16,11 @@ gradlePlugin {
 
 repositories {
     mavenCentral()
+    maven("https://maven.fabricmc.net/")
 }
 
 dependencies {
     implementation(project(":gladys"))
+
+    compileOnly("fabric-loom:fabric-loom.gradle.plugin:1.11-SNAPSHOT")
 }
