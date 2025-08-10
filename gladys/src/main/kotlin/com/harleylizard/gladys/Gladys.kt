@@ -5,11 +5,16 @@ import com.harleylizard.gladys.Pair.Companion.and
 import com.harleylizard.gladys.strategy.Strategy
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
+import java.io.BufferedWriter
+import java.io.OutputStreamWriter
 import java.net.http.HttpClient
 import java.util.*
 
 class Gladys private constructor(private val map: Map<String, Pair<Strategy, Aliases>>): HttpHandler {
-    private val gson = GsonBuilder().create()
+    private val gson = GsonBuilder()
+        .registerTypeAdapter(Dependency::class.java, Dependency.serialiser)
+        .registerTypeAdapter(DependencySet::class.java, DependencySet.serialiser)
+        .create()
 
     override fun handle(exchange: HttpExchange) {
         if (exchange.requestMethod.equals("GET")) {
@@ -28,8 +33,15 @@ class Gladys private constructor(private val map: Map<String, Pair<Strategy, Ali
                 val client = HttpClient.newHttpClient()
 
                 dependencies.addAll(strategy.find(client, gson, platform, slug, version))
-
                 client.shutdown()
+
+                val result = gson.toJson(DependencySet(Collections.unmodifiableSet(dependencies)))
+                exchange.responseHeaders.add("Content-Type", "application/json")
+                exchange.sendResponseHeaders(200, result.toByteArray().size.toLong())
+
+                BufferedWriter(OutputStreamWriter(exchange.responseBody)).use { writer ->
+                    writer.write(result)
+                }
             }
 
             exchange.sendResponseHeaders(404, -1)

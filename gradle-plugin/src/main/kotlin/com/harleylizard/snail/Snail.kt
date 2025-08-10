@@ -45,11 +45,11 @@ class Snail : Plugin<Project> {
         }
 
         fun DependencyHandler.latest(platform: Platform, unit: (Dependencies) -> Unit) {
-
+            Dependencies(platform).also(unit)
         }
 
         fun DependencyCollector.latest(platform: Platform, unit: (Dependencies) -> Unit) {
-
+            Dependencies(platform).also(unit)
         }
 
     }
