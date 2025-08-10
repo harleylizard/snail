@@ -18,7 +18,6 @@ class Snail : Plugin<Project> {
                 repositories.exclusive("https://cursemaven.com/", "curse.maven")
                 repositories.exclusive("https://api.modrinth.com/maven", "maven.modrinth")
             }
-
         }
     }
 
