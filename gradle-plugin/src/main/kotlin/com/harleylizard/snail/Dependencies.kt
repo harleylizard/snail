@@ -4,15 +4,15 @@ import com.harleylizard.snail.platform.Platform
 
 class Dependencies(private val platform: Platform) {
 
-    fun implementation() {
+    fun implementation(slug: String) {
     }
 
-    fun api() {
+    fun api(slug: String) {
     }
 
-    fun compileOnly() {
+    fun compileOnly(slug: String) {
     }
 
-    fun runtimeOnly() {
+    fun runtimeOnly(slug: String) {
     }
 }

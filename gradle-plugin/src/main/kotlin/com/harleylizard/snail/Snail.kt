@@ -40,15 +40,15 @@ class Snail : Plugin<Project> {
             }
         }
 
-        fun Project.latest(unit: (Dependencies) -> Unit) {
+        fun Project.latest(unit: Dependencies.() -> Unit) {
             dependencies.latest(platform, unit)
         }
 
-        fun DependencyHandler.latest(platform: Platform, unit: (Dependencies) -> Unit) {
+        fun DependencyHandler.latest(platform: Platform, unit: Dependencies.() -> Unit) {
             Dependencies(platform).also(unit)
         }
 
-        fun DependencyCollector.latest(platform: Platform, unit: (Dependencies) -> Unit) {
+        fun DependencyCollector.latest(platform: Platform, unit: Dependencies.() -> Unit) {
             Dependencies(platform).also(unit)
         }
 
